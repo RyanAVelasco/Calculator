@@ -1,4 +1,5 @@
 from tkinter import *
+import math
 
 # === Draw the window
 calculator = Tk()
@@ -14,16 +15,76 @@ def button_input(number):
 
 def button_add(f1):
     global first_number
+    global math
+
+    math = "add"
 
     f1 = output.get()
-    first_number = int(f1)
+    first_number = float(f1)
     output.delete(0, END)
+
+
+def button_sub(f1):
+    global first_number
+    global math
+
+    math = "sub"
+    f1 = output.get()
+    first_number = float(f1)
+    output.delete(0, END)
+
+
+def button_mult(f1):
+    global first_number
+    global math
+
+    math = "mult"
+
+    f1 = output.get()
+    first_number = float(f1)
+    output.delete(0, END)
+
+
+def button_div(f1):
+    global first_number
+    global math
+
+    math = "div"
+
+    f1 = output.get()
+    first_number = float(f1)
+    output.delete(0, END)
+
+
+def button_sqrt(f1):
+    global first_number
+
+    first_number = float(output.get())
+    output.delete(0, END)
+    output.insert(0, math.sqrt(first_number))
+
+
+def button_sq(f1):
+    global first_number
+
+    first_number = float(output.get())
+    output.delete(0, END)
+    output.insert(0,(first_number ** 2))
+
 
 
 def button_equal():
     second_number = output.get()
     output.delete(0, END)
-    output.insert(0, first_number + int(second_number))
+
+    if math == "add":
+        output.insert(0, first_number + float(second_number))
+    elif math == "sub":
+        output.insert(0, first_number - float(second_number))
+    elif math == "mult":
+        output.insert(0, first_number * float(second_number))
+    elif math == "div":
+        output.insert(0, first_number / float(second_number))
 
 
 def button_clr():
@@ -42,13 +103,16 @@ num7 = Button(calculator, text=7, padx=20, pady=20, command=lambda: button_input
 num8 = Button(calculator, text=8, padx=20, pady=20, command=lambda: button_input(8))
 num9 = Button(calculator, text=9, padx=20, pady=20, command=lambda: button_input(9))
 num0 = Button(calculator, text=0, padx=20, pady=20, command=lambda: button_input(0))
-equal = Button(calculator, text="=", padx=20, pady=20, command=lambda: button_equal())
-dec = Button(calculator, text=".", padx=20, pady=20, command=lambda: button_input())
-div = Button(calculator, text="/", padx=20, pady=20, command=lambda: button_input())
-mult = Button(calculator, text="*", padx=20, pady=20, command=lambda: button_input())
-sub = Button(calculator, text="-", padx=20, pady=20, command=lambda: button_input())
-add = Button(calculator, text="+", padx=20, pady=20, command=lambda: button_add(output.get()))
-delete = Button(calculator, text="C", padx=20, pady=20, command=lambda: button_clr())
+dec = Button(calculator, text=".", padx=49, pady=20, command=lambda: button_input("."))
+div = Button(calculator, text="/", padx=20, pady=20, command=lambda: button_div(output.get()))
+mult = Button(calculator, text="*", padx=20, pady=20, command=lambda: button_mult(output.get()))
+sub = Button(calculator, text="-", padx=20, pady=20, command=lambda: button_sub(output.get()))
+add = Button(calculator, text="+", padx=19, pady=20, command=lambda: button_add(output.get()))
+sq = Button(calculator, text="sq(x)", padx=14, pady=20, command=lambda: button_sq(output.get()))
+sqrt = Button(calculator, text="sqrt(x)", padx=10, pady=20, command=lambda: button_sqrt(output.get()))
+
+equal = Button(calculator, text="=", padx=20, pady=85, bg="darkred", fg="white", command=lambda: button_equal())
+clear = Button(calculator, text="C", padx=20, pady=20, bg="darkblue", fg="white", command=lambda: button_clr())
 
 # === Grid
 num1.grid(row=3, column=0)
@@ -61,17 +125,22 @@ num7.grid(row=1, column=0)
 num8.grid(row=1, column=1)
 num9.grid(row=1, column=2)
 num0.grid(row=4, column=0)
-dec.grid(row=4, column=1)
-equal.grid(row=2, column=4)
+
+dec.grid(row=4, column=1, columnspan=2)
+equal.grid(row=2, column=4, rowspan=3)
+
 div.grid(row=1, column=3)
 mult.grid(row=2, column=3)
 sub.grid(row=3, column=3)
 add.grid(row=4, column=3)
-delete.grid(row=1, column=4)
+sq.grid(row=1, column=5)
+sqrt.grid(row=2, column=5)
+
+clear.grid(row=1, column=4)
 
 # === Output
-output = Entry(calculator, width=45, borderwidth=5)
-output.grid(row=0, column=0, columnspan=5)
+output = Entry(calculator, width=37, borderwidth=5, font=12)
+output.grid(row=0, column=0, columnspan=6)
 
 # === Initiate the program
 calculator.mainloop()
